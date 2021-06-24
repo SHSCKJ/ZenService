@@ -1,13 +1,11 @@
 package com.lightshell.zen.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@Table(name="convenientinformation")
 public class ConvenientInformation {
     private int id;
     private String name;
@@ -26,10 +24,10 @@ public class ConvenientInformation {
     private String committee;
     private String businessHours;
     private String contacter;
-    private String contacterPhoto;
+    private String avatar;
     private String tel;
     private String fax;
-    private String statues;
+    private String status;
     private String creator;
     private Timestamp credate;
     private String optuser;
@@ -208,13 +206,13 @@ public class ConvenientInformation {
     }
 
     @Basic
-    @Column(name = "contacterPhoto", nullable = true, length = 400)
-    public String getContacterPhoto() {
-        return contacterPhoto;
+    @Column(name = "avatar", nullable = true, length = 400)
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setContacterPhoto(String contacterPhoto) {
-        this.contacterPhoto = contacterPhoto;
+    public void setAvatar(String contacterPhoto) {
+        this.avatar = contacterPhoto;
     }
 
     @Basic
@@ -238,13 +236,13 @@ public class ConvenientInformation {
     }
 
     @Basic
-    @Column(name = "statues", nullable = false, length = 2)
-    public String getStatues() {
-        return statues;
+    @Column(name = "status", nullable = false, length = 2)
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatues(String statues) {
-        this.statues = statues;
+    public void setStatus(String statues) {
+        this.status = statues;
     }
 
     @Basic
@@ -312,11 +310,11 @@ public class ConvenientInformation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ConvenientInformation that = (ConvenientInformation) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(fullname, that.fullname) && Objects.equals(locationPhoto, that.locationPhoto) && Objects.equals(lat, that.lat) && Objects.equals(lng, that.lng) && Objects.equals(category, that.category) && Objects.equals(province, that.province) && Objects.equals(city, that.city) && Objects.equals(district, that.district) && Objects.equals(town, that.town) && Objects.equals(street, that.street) && Objects.equals(streetNumber, that.streetNumber) && Objects.equals(address, that.address) && Objects.equals(committee, that.committee) && Objects.equals(businessHours, that.businessHours) && Objects.equals(contacter, that.contacter) && Objects.equals(contacterPhoto, that.contacterPhoto) && Objects.equals(tel, that.tel) && Objects.equals(fax, that.fax) && Objects.equals(statues, that.statues) && Objects.equals(creator, that.creator) && Objects.equals(credate, that.credate) && Objects.equals(optuser, that.optuser) && Objects.equals(optdate, that.optdate) && Objects.equals(cfmuser, that.cfmuser) && Objects.equals(cfmdate, that.cfmdate);
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(fullname, that.fullname) && Objects.equals(locationPhoto, that.locationPhoto) && Objects.equals(lat, that.lat) && Objects.equals(lng, that.lng) && Objects.equals(category, that.category) && Objects.equals(province, that.province) && Objects.equals(city, that.city) && Objects.equals(district, that.district) && Objects.equals(town, that.town) && Objects.equals(street, that.street) && Objects.equals(streetNumber, that.streetNumber) && Objects.equals(address, that.address) && Objects.equals(committee, that.committee) && Objects.equals(businessHours, that.businessHours) && Objects.equals(contacter, that.contacter) && Objects.equals(avatar, that.avatar) && Objects.equals(tel, that.tel) && Objects.equals(fax, that.fax) && Objects.equals(status, that.status) && Objects.equals(creator, that.creator) && Objects.equals(credate, that.credate) && Objects.equals(optuser, that.optuser) && Objects.equals(optdate, that.optdate) && Objects.equals(cfmuser, that.cfmuser) && Objects.equals(cfmdate, that.cfmdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, fullname, locationPhoto, lat, lng, category, province, city, district, town, street, streetNumber, address, committee, businessHours, contacter, contacterPhoto, tel, fax, statues, creator, credate, optuser, optdate, cfmuser, cfmdate);
+        return Objects.hash(id, name, fullname, locationPhoto, lat, lng, category, province, city, district, town, street, streetNumber, address, committee, businessHours, contacter, avatar, tel, fax, status, creator, credate, optuser, optdate, cfmuser, cfmdate);
     }
 }

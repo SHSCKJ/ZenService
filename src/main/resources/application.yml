@@ -14,6 +14,7 @@ spring:
       url: jdbc:mysql://localhost:3306/easymap
       username: root
       password: Oracle
+      filters: stat,wall
   jpa:
     hibernate:
       ddl-auto: none

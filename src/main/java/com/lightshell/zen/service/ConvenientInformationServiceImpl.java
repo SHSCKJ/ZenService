@@ -18,8 +18,11 @@ import com.lightshell.zen.common.SuperService;
 import com.lightshell.zen.entity.ConvenientInformation;
 import com.lightshell.zen.repository.ConvenientInformationRepository;
 
+/**
+ * @author kevindong
+ */
 @Service
-public class ConvenientInformationService implements SuperService<ConvenientInformation> {
+public class ConvenientInformationServiceImpl implements SuperService<ConvenientInformation> {
 
     @Autowired
     ConvenientInformationRepository convenientInformationRepository;
@@ -29,13 +32,17 @@ public class ConvenientInformationService implements SuperService<ConvenientInfo
             .toList();
     }
 
-    public List<ConvenientInformation> findAll(LinkedHashMap<String, Object> filters, Integer offset, Integer pageSize,
-        @Nullable LinkedHashMap<String, String> sorts) {
+    public List<ConvenientInformation> findAll(Map<String, Object> filters, Integer offset, Integer pageSize,
+        @Nullable Map<String, String> sorts) {
         Pageable pageable;
         if (sorts != null && !sorts.isEmpty()) {
-            Sort sort = Sort.by("");
+            Sort sort = null;
             for (Map.Entry<String, String> entry : sorts.entrySet()) {
-                sort = sort.and(Sort.by(Sort.Direction.fromString(entry.getValue()), entry.getValue()));
+                if (sort == null) {
+                    sort = Sort.by(Sort.Direction.fromString(entry.getValue()), entry.getKey());
+                } else {
+                    sort = sort.and(Sort.by(Sort.Direction.fromString(entry.getValue()), entry.getKey()));
+                }
             }
             pageable = PageRequest.of(offset, pageSize, sort);
         } else {
@@ -48,18 +55,18 @@ public class ConvenientInformationService implements SuperService<ConvenientInfo
         return convenientInformationRepository.count();
     }
 
-    public long getCount(LinkedHashMap<String, Object> map) {
-        return convenientInformationRepository.count(getSpecification(map));
+    public long getCount(Map<String, Object> filters) {
+        return convenientInformationRepository.count(getSpecification(filters));
     }
 
-    public Specification<ConvenientInformation> getSpecification(LinkedHashMap<String, Object> map) {
+    public Specification<ConvenientInformation> getSpecification(Map<String, Object> filters) {
         Specification<ConvenientInformation> spec = new Specification<ConvenientInformation>() {
             @Override
             public Predicate toPredicate(Root<ConvenientInformation> root, CriteriaQuery<?> query,
                 CriteriaBuilder criteriaBuilder) {
                 Predicate predicate = null;
-                if (map != null && !map.isEmpty()) {
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
+                if (filters != null && !filters.isEmpty()) {
+                    for (Map.Entry<String, Object> entry : filters.entrySet()) {
                         Predicate p;
                         Path<Object> path = root.get(entry.getKey());
                         if (entry.getValue() instanceof String) {

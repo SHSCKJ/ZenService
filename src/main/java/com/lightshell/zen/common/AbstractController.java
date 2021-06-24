@@ -2,7 +2,10 @@ package com.lightshell.zen.common;
 
 import java.util.LinkedHashMap;
 
-public class SuperController {
+/**
+ * @author kevindong
+ */
+public abstract class AbstractController {
 
     protected LinkedHashMap<String, Object> map = new LinkedHashMap();
 

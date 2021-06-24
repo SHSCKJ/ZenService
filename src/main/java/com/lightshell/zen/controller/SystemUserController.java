@@ -1,30 +1,34 @@
 package com.lightshell.zen.controller;
 
-import com.lightshell.zen.common.ResponseObject;
-import com.lightshell.zen.common.SuperController;
-import com.lightshell.zen.common.ZenLogin;
-import com.lightshell.zen.entity.SystemUser;
-import com.lightshell.zen.service.SystemUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import com.lightshell.zen.common.AbstractController;
+import com.lightshell.zen.common.ResponseObject;
+import com.lightshell.zen.common.ZenLogin;
+import com.lightshell.zen.entity.SystemUser;
+import com.lightshell.zen.service.SystemUserServiceImpl;
+
+/**
+ * @author kevindong
+ */
 @Controller
 @RequestMapping(path = "/user")
-public class SystemUserController extends SuperController {
+public class SystemUserController extends AbstractController {
 
     @Autowired
-    private SystemUserService systemUserService;
+    private SystemUserServiceImpl systemUserServiceImpl;
 
     @PostMapping(path = "/login")
     @ResponseBody
     public ResponseObject loginYun(@RequestBody ZenLogin entity, @RequestParam("appid") String appid,
-                                   @RequestParam("token") String token) {
+        @RequestParam("token") String token) {
         if (isAuthorized(appid, token)) {
             ResponseObject res = null;
             String userid, pwd, type;
@@ -33,7 +37,7 @@ public class SystemUserController extends SuperController {
             type = entity.getType();
             ZenLogin login = new ZenLogin();
             try {
-                SystemUser user = systemUserService.findByUserid(userid);
+                SystemUser user = systemUserServiceImpl.findByUserid(userid);
                 if (user == null) {
                     login.setStatus("error");
                     return new ResponseObject<>("404", "此用戶不存在", login);
@@ -57,10 +61,10 @@ public class SystemUserController extends SuperController {
     @GetMapping(path = "/fetch")
     @ResponseBody
     public ResponseObject fetchYun(@RequestParam("userid") String userid, @RequestParam("appid") String appid,
-                                   @RequestParam("token") String token) {
+        @RequestParam("token") String token) {
         if (isAuthorized(appid, token)) {
             ResponseObject res;
-            SystemUser su = systemUserService.findByUserid(userid);
+            SystemUser su = systemUserServiceImpl.findByUserid(userid);
             if (su != null) {
                 HashMap<String, Object> yu = new HashMap<>();
                 yu.put("userid", su.getUserid());
@@ -72,6 +76,7 @@ public class SystemUserController extends SuperController {
                 yu.put("title", "斗师");
                 yu.put("phone", su.getPhone());
                 yu.put("address", "灵溪大道");
+
                 List<Map<String, String>> tags = new ArrayList<>();
                 Map<String, String> tag;
                 tag = new HashMap<>();
@@ -156,7 +161,12 @@ public class SystemUserController extends SuperController {
                     res = new ResponseObject<>("200", "success", yu);
                     res.getExtData().put("menu", null);
                     res.getExtData().put("radarData", radarData);
-                    res.getExtData().put("authorization", null);
+
+
+
+                    List<String> auth = new ArrayList<>();
+                    auth.add("admin");
+                    res.getExtData().put("currentAuthority", auth);
 
                     return res;
                 } catch (Exception ex) {
@@ -169,6 +179,5 @@ public class SystemUserController extends SuperController {
             return new ResponseObject<>("403", "用戶认证失败", null);
         }
     }
-
 
 }

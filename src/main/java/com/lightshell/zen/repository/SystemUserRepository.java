@@ -1,13 +1,15 @@
 package com.lightshell.zen.repository;
 
-import com.lightshell.zen.entity.SystemUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import com.lightshell.zen.entity.SystemUser;
 
 /**
  * @author kevindong
  */
-public interface SystemUserRepository extends JpaRepository<SystemUser, Integer> {
+public interface SystemUserRepository extends JpaRepository<SystemUser, Integer>, JpaSpecificationExecutor<SystemUser> {
 
-    public SystemUser findByUseridEquals(String userid);
+    SystemUser findByUseridEquals(String userid);
 
 }

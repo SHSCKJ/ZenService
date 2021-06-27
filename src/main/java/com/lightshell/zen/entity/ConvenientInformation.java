@@ -1,11 +1,13 @@
 package com.lightshell.zen.entity;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.UUID;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name="convenientinformation")
+@Table(name = "convenientinformation")
 public class ConvenientInformation {
     private int id;
     private String name;
@@ -27,6 +29,7 @@ public class ConvenientInformation {
     private String avatar;
     private String tel;
     private String fax;
+    private String uid;
     private String status;
     private String creator;
     private Timestamp credate;
@@ -34,6 +37,10 @@ public class ConvenientInformation {
     private Timestamp optdate;
     private String cfmuser;
     private Timestamp cfmdate;
+
+    public ConvenientInformation() {
+        this.uid = UUID.randomUUID().toString().replace("-", "");
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -236,6 +243,16 @@ public class ConvenientInformation {
     }
 
     @Basic
+    @Column(name = "uid", nullable = true, length = 45)
+    public String getUID() {
+        return uid;
+    }
+
+    public void setUID(String uid) {
+        this.uid = uid;
+    }
+
+    @Basic
     @Column(name = "status", nullable = false, length = 2)
     public String getStatus() {
         return status;
@@ -307,14 +324,30 @@ public class ConvenientInformation {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ConvenientInformation that = (ConvenientInformation) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(fullname, that.fullname) && Objects.equals(locationPhoto, that.locationPhoto) && Objects.equals(lat, that.lat) && Objects.equals(lng, that.lng) && Objects.equals(category, that.category) && Objects.equals(province, that.province) && Objects.equals(city, that.city) && Objects.equals(district, that.district) && Objects.equals(town, that.town) && Objects.equals(street, that.street) && Objects.equals(streetNumber, that.streetNumber) && Objects.equals(address, that.address) && Objects.equals(committee, that.committee) && Objects.equals(businessHours, that.businessHours) && Objects.equals(contacter, that.contacter) && Objects.equals(avatar, that.avatar) && Objects.equals(tel, that.tel) && Objects.equals(fax, that.fax) && Objects.equals(status, that.status) && Objects.equals(creator, that.creator) && Objects.equals(credate, that.credate) && Objects.equals(optuser, that.optuser) && Objects.equals(optdate, that.optdate) && Objects.equals(cfmuser, that.cfmuser) && Objects.equals(cfmdate, that.cfmdate);
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ConvenientInformation that = (ConvenientInformation)o;
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(fullname, that.fullname)
+            && Objects.equals(locationPhoto, that.locationPhoto) && Objects.equals(lat, that.lat)
+            && Objects.equals(lng, that.lng) && Objects.equals(category, that.category)
+            && Objects.equals(province, that.province) && Objects.equals(city, that.city)
+            && Objects.equals(district, that.district) && Objects.equals(town, that.town)
+            && Objects.equals(street, that.street) && Objects.equals(streetNumber, that.streetNumber)
+            && Objects.equals(address, that.address) && Objects.equals(committee, that.committee)
+            && Objects.equals(businessHours, that.businessHours) && Objects.equals(contacter, that.contacter)
+            && Objects.equals(avatar, that.avatar) && Objects.equals(tel, that.tel) && Objects.equals(fax, that.fax)
+            && Objects.equals(status, that.status) && Objects.equals(creator, that.creator)
+            && Objects.equals(credate, that.credate) && Objects.equals(optuser, that.optuser)
+            && Objects.equals(optdate, that.optdate) && Objects.equals(cfmuser, that.cfmuser)
+            && Objects.equals(cfmdate, that.cfmdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, fullname, locationPhoto, lat, lng, category, province, city, district, town, street, streetNumber, address, committee, businessHours, contacter, avatar, tel, fax, status, creator, credate, optuser, optdate, cfmuser, cfmdate);
+        return Objects.hash(id, name, fullname, locationPhoto, lat, lng, category, province, city, district, town,
+            street, streetNumber, address, committee, businessHours, contacter, avatar, tel, fax, status, creator,
+            credate, optuser, optdate, cfmuser, cfmdate);
     }
 }

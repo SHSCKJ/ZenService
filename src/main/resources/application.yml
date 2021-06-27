@@ -11,7 +11,7 @@ spring:
       max-active: 8
       min-idle: 2
       maxWait: 60000
-      url: jdbc:mysql://localhost:3306/easymap
+      url: jdbc:mysql://localhost:3306/easymap?serverTimezone=UTC
       username: root
       password: Oracle
       filters: stat,wall
